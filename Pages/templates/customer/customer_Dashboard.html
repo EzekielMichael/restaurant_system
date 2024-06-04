@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+        <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .navbar-nav {
+            flex-direction: row;
+            color: white;
+        }
+        .navbar-nav .nav-item {
+            padding-right: 10px;
+        }
+        .navbar-nav .nav-item:last-child {
+            padding-right: 0;
+        }
+        @media (max-width: 576px) {
+            .sidebar {
+                height: auto;
+            }
+        }
+        @media (min-width: 576px) {
+            .sidebar{
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Top bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+            <div class="container">
+                <a class="navbar-brand" href="#">welcome</a>
+                <a class="navbar-brand" href="#"><i class="fas fa-user"></i> <strong>{{ user.username }}</strong></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-start" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-phone"></i> Call</a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit"><i class="fas fa-sign-out-alt"></i>Logout</button>
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'change_password' %}"><i class="fas fa-key"></i> change password</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid ">
+            <div class="row">
+                <!-- Left Sidebar -->
+                <nav class="col-md-2 col-lg-2 sidebar" style="background-color: rgb(36, 46, 36);">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" @click.prevent="loadContent('notifications')">
+                                    <i class="fas fa-bell"></i>
+                                    Notifications
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'order_history' %}" >
+                                    <i class="fas fa-clock"></i>
+                                    view your order
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'create_order' %}">
+                                    <i class="fas fa-list"></i>
+                                    make Order
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <!-- Main Content -->
+                <main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+                    {% block content %}
+                         <!-- Main content -->
+                         <h1>welcome Customer</h1>
+                    {% endblock %}
+                </main>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

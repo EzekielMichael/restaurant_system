@@ -1,0 +1,53 @@
+{% extends "manager/manager_Dashboard.html" %}
+
+{% block content %}
+<!-- Main Content -->
+<main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>View Menu</title>
+        <!-- Include Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-4">
+            <h1 class="mb-4">View Menu</h1>
+
+            <form method="post" action="{% url 'create_order' %}">
+                {% csrf_token %}
+                {{ order_form.as_p }}
+
+                <h2 class="mt-4">Order Items</h2>
+                <div class="row">
+                    {% for item in items %}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{{ item.ItemImage.url }}" class="card-img-top" alt="{{ item.ItemName }}">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ item.ItemName }}</h3>
+                                <p class="card-text">Price: ${{ item.ItemPrice }}</p>
+                                <p class="card-text">Quantity:
+                                    <input type="number" class="form-control" name="item_{{ item.ItemID }}" value="0" min="0">
+                                </p>
+                                <a href="{% url 'update_item' item.ItemID %}" class="btn btn-warning">Update</a>
+                                <a href="{% url 'delete_item' item.ItemID %}" class="btn btn-danger">Delete</a>
+                                <button type="submit" class="btn btn-primary mt-2">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Include Bootstrap JS and dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+    </html>
+</main>
+{% endblock %}

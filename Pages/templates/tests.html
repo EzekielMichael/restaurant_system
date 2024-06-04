@@ -1,0 +1,22 @@
+{% extends "manager/manager_Dashboard.html" %}
+
+{% block content %}
+<!-- Main Content -->
+<main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Create Data</title>
+    </head>
+    <body>
+        <h1>Create Data</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </body>
+    </html>
+
+</main>
+{% endblock %}

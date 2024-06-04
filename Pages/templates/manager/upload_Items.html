@@ -1,0 +1,40 @@
+{% extends "manager/manager_Dashboard.html" %}
+
+{% block content %}
+<!-- Main Content -->
+<main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="my-4 text-center">Upload Food Menu</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.non_field_errors }}
+            {{ form.ItemName.label_tag }}
+            {{ form.ItemName }}
+            {% for error in form.ItemName.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="form-group">
+            {{ form.ItemPrice.label_tag }}
+            {{ form.ItemPrice }}
+            {% for error in form.ItemPrice.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="form-group">
+            {{ form.ItemImage.label_tag }}
+            {{ form.ItemImage }}
+            {% for error in form.ItemImage.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

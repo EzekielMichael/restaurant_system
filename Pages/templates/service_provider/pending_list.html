@@ -1,0 +1,88 @@
+{% extends "service_provider/provider_Dashboard.html" %}
+
+{% block content %}
+<!-- Main Content -->
+<main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <title>View Menu</title>
+      <!-- Include Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+      
+          
+          {% for order in orders %}
+            {% for order_item in order_items %}
+              {% if order_item.OrderID_id == order.OrderID %}
+              <div class="container">
+                  <h1 class="my-4">Pending Orders</h1>
+                  <div class="card mb-3">
+                      <div class="card-body">
+                          <ul class="list-group list-group-flush">
+                              <div class="card-header">
+                                  <h2 class="card-title">Coupon #{{ order.OrderID }}</h2>
+                              </div>
+                              <p><strong>Customer:</strong> {{ order.CustomerID }}</p>
+                              <p><strong>Date:</strong> {{ order.OrderDate }}, At :<strong>{{ order.OrderTime }}</strong> </p>
+                              <p>Total Price: <strong>Tshs.{{ order.TotalAmount }} /=</strong></p>
+                              <h3>Order Items</h3>
+                              <li class="list-group-item">
+                                  <p><strong>Ordered Food :{{ order_item.Quantity }} - {{ order_item.ItemID }}</strong></p>
+                                  <p>Status :<strong class="btn btn-warning">{{ order_item.Status }}</strong></p>
+                                  <button class="btn btn-success" onclick="updateOrderItemStatus({{ order_item.id }})">Check</button>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              
+              {% endif %}
+            {% endfor %}
+  
+          {% endfor %}
+      
+      <script>
+          function updateOrderItemStatus(order_item_id) {
+              // Make an AJAX request to update the order item status
+              fetch(`/update_order_item_status/${order_item_id}/`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': getCookie('csrftoken')
+                  },
+                  body: JSON.stringify({ status: 'Expired' })
+              })
+              .then(response => {
+                  if (response.ok) {
+                      console.log('Order item status updated successfully');
+                      // Optionally, you can update the UI to reflect the status change
+                  } else {
+                      console.error('Error updating order item status');
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          }
+
+          function getCookie(name) {
+              let cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  const cookies = document.cookie.split(';');
+                  for (let i = 0; i < cookies.length; i++) {
+                      const cookie = cookies[i].trim();
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+      </script>
+  </body>
+  </html>
+</main>
+{% endblock %}
