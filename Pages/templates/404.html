@@ -9,16 +9,49 @@
         #gameCanvas {
             border: 1px solid #000;
             background-color: #f9f9f9;
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+        }
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .control-button {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            font-size: 24px;
+        }
+        .control-row {
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <div class="container text-center mt-5">
         <h1>Snake Game</h1>
-        <canvas id="gameCanvas" width="450" height="450"></canvas>
+        <canvas id="gameCanvas" width="300" height="300"></canvas>
         <div class="mt-3">
             <button id="startButton" class="btn btn-primary">Start Game</button>
         </div>
+        <div class="control-buttons">
+            <div class="control-row">
+                <button id="upButton" class="btn btn-secondary control-button">↑</button>
+            </div>
+            <div class="control-row">
+                <button id="leftButton" class="btn btn-secondary control-button">←</button>
+                <button id="downButton" class="btn btn-secondary control-button">↓</button>
+                <button id="rightButton" class="btn btn-secondary control-button">→</button>
+            </div>
+        </div>
+        <!-- Audio elements for sound effects -->
+        <audio id="eatSound" src="sounds/eat.mp3" preload="auto"></audio>
+        <audio id="gameOverSound" src="sounds/gameover.mp3" preload="auto"></audio>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -27,8 +60,12 @@
             const canvas = $('#gameCanvas')[0];
             const ctx = canvas.getContext('2d');
             const gridSize = 15;
-            const canvasSize = 450;
+            const canvasSize = 300;
             let snake, food, direction, gameInterval;
+
+            // Sound elements
+            const eatSound = $('#eatSound')[0];
+            const gameOverSound = $('#gameOverSound')[0];
 
             function initGame() {
                 snake = [{ x: gridSize * 5, y: gridSize * 5 }];
@@ -72,6 +109,7 @@
 
                 if (head.x < 0 || head.x >= canvasSize || head.y < 0 || head.y >= canvasSize || checkCollision(head)) {
                     clearInterval(gameInterval);
+                    gameOverSound.play();
                     alert('Game Over');
                     return;
                 }
@@ -79,6 +117,7 @@
                 snake.unshift(head);
 
                 if (head.x === food.x && head.y === food.y) {
+                    eatSound.play();
                     placeFood();
                 } else {
                     snake.pop();
@@ -121,6 +160,20 @@
                         if (direction !== 'up') direction = 'down';
                         break;
                 }
+            });
+
+            // Touch event handlers
+            $('#upButton').click(function() {
+                if (direction !== 'down') direction = 'up';
+            });
+            $('#downButton').click(function() {
+                if (direction !== 'up') direction = 'down';
+            });
+            $('#leftButton').click(function() {
+                if (direction !== 'right') direction = 'left';
+            });
+            $('#rightButton').click(function() {
+                if (direction !== 'left') direction = 'right';
             });
 
             $('#startButton').click(function() {
