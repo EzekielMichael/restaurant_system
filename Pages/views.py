@@ -36,6 +36,9 @@ def home(request):
         # User is a customer
         return render(request,'customer/customer_Dashboard.html')
 
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
 
 def register(response):
     if response.method == "POST":

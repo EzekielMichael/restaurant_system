@@ -10,32 +10,64 @@
         <title>View Menu</title>
         <!-- Include Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- Include Font Awesome for Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <!-- Custom CSS for additional styling -->
+        <style>
+            .card {
+                border: none;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s;
+            }
+            .card:hover {
+                transform: scale(1.05);
+            }
+            .card-img-top {
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+                height: 200px;
+                object-fit: cover;
+            }
+            h1, h2, h3 {
+                font-family: 'Comic Sans MS', cursive, sans-serif;
+                color: #ff6f61;
+            }
+            .btn-primary {
+                background-color: #ff6f61;
+                border: none;
+            }
+            .btn-primary:hover {
+                background-color: #ff3f3f;
+            }
+        </style>
     </head>
     <body>
         <div class="container mt-4">
-            <h1 class="mb-4">View Menu</h1>
+            <h1 class="mb-4 text-center">View Menu</h1>
 
             <form method="post" action="{% url 'create_order' %}">
                 {% csrf_token %}
                 {{ order_form.as_p }}
 
-                <h2 class="mt-4">Order Items</h2>
+                <h2 class="mt-4 mb-4 text-center">Order Items</h2>
                 <div class="row">
                     {% for item in items %}
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <img src="{{ item.ItemImage.url }}" class="card-img-top" alt="{{ item.ItemName }}">
-                            <div class="card-body">
+                            <div class="card-body text-center">
                                 <h3 class="card-title">{{ item.ItemName }}</h3>
                                 <p class="card-text">Price: Tshs.{{ item.ItemPrice }}/=</p>
-                                <p class="card-text">Quantity:
-                                    <input type="number" class="form-control" name="item_{{ item.ItemID }}" value="0" min="0">
+                                <p class="card-text">
+                                    Quantity:
+                                    <input type="number" class="form-control text-center" name="item_{{ item.ItemID }}" value="0" min="0" style="width: 100px; margin: 0 auto;">
                                 </p>
-                                <button type="submit" class="btn btn-primary">Place Order</button>
+                                <button type="submit" class="btn btn-primary mt-2">Place Order</button>
                             </div>
                         </div>
                     </div>
-
                     {% endfor %}
                 </div>
 

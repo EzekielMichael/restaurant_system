@@ -27,14 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-c8p-18wm)d3*cp+zp%pf&v$xu^_q*6fs0gym%!*czu@b-y%dyr')
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'False'
 
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
-
+# Token is : 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
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
